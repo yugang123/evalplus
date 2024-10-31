@@ -294,7 +294,7 @@ def evaluate(
                         "plus_fail_tests": plus_fail_tests,
                     }
                 )
-
+                print(results["eval"][task_id])
     # Calculate pass@k.
     total = np.array([len(r) for r in results["eval"].values()])
     base_correct = []
