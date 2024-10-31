@@ -130,7 +130,7 @@ def evaluate(
     base_only: bool = False,
     parallel: Optional[int] = None,
     i_just_wanna_run: bool = False,
-    test_details: bool = False,
+    test_details: bool = True,
     min_time_limit: float = DEFAULT_MIN_TIME_LIMIT,
     gt_time_limit_factor: float = DEFAULT_GT_TIME_LIMIT_FACTOR,
     mini: bool = False,
@@ -294,7 +294,8 @@ def evaluate(
                         "plus_fail_tests": plus_fail_tests,
                     }
                 )
-                print(results["eval"][task_id])
+        with open('fault.json', "w") as f:
+            json.dump(results["eval"], f)
     # Calculate pass@k.
     total = np.array([len(r) for r in results["eval"].values()])
     base_correct = []
