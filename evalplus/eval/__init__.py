@@ -214,7 +214,6 @@ def unsafe_execute(
             stat.value = _SUCCESS
         except BaseException:
             stat.value = _FAILED
-            progress.value=len(inputs)
         # Needed for cleaning up.
         shutil.rmtree = rmtree
         os.rmdir = rmdir
@@ -277,6 +276,7 @@ def untrusted_check(
     if stat == PASS:
         if all(details):
             stat = FAIL
+    progress.value=len(inputs)
     details = details[: progress.value]
     return stat, details
 
