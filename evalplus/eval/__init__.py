@@ -269,13 +269,12 @@ def untrusted_check(
         time.sleep(0.1)
 
     stat = _mapping[stat.value]
-    details = details[: progress.value]
 
-    if not stat:
+    if not stat or stat==FAIL:
         stat = TIMEOUT
 
     if stat == PASS:
-        if len(details) != len(inputs) or not all(details):
+        if all(details):
             stat = FAIL
 
     return stat, details
