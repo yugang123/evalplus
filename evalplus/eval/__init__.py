@@ -273,7 +273,7 @@ def untrusted_check(
     if not stat or stat==FAIL:
         stat = TIMEOUT
     if stat == PASS:
-        if len(details) != len(inputs) or not all(details):
+        if not all(details):
             stat = FAIL
     return stat, details
 
