@@ -257,7 +257,7 @@ def evaluate(
 
                     else:
                         return [
-                            inputs[i] for i in range(len(inputs)) if not details[i]
+                            inputs[i] for i in range(len(details)) if not details[i]
                         ]
 
                 base_stat, base_details = res["base"]
