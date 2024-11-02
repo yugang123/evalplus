@@ -238,8 +238,8 @@ def untrusted_check(
         timeout += 1  # extra time for data collection
 
     # shared memory objects
-    progress = Value("i", 0)
-    stat = Value("i", _UNKNOWN)
+    progress = 0
+    stat = _UNKNOWN
     details = Array("b", [False for _ in range(len(inputs))])
 
     p = multiprocessing.Process(
@@ -269,9 +269,8 @@ def untrusted_check(
         time.sleep(0.1)
 
     stat = _mapping[stat.value]
-    progress.value=len(inputs)
-    details = details[: progress.value]
-    if not stat or stat==FAIL:
+    details = details[: len(inputs)]
+    if not stat:
         stat = TIMEOUT
 
     if stat == PASS:
