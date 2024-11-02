@@ -137,6 +137,8 @@ def evaluate(
     version: str = "default",
     **model_kwargs,
 ):
+    import multiprocessing
+    multiprocessing.set_start_method('spawn', force=True)
     if model_kwargs:
         # To suppress the warning of tokenizers
         os.environ["TOKENIZERS_PARALLELISM"] = os.environ.get(
