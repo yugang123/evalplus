@@ -276,7 +276,7 @@ def untrusted_check(
     if stat == PASS:
         if all(details):
             stat = FAIL
-
+    details = details[: progress.value]
     return stat, details
 
 
