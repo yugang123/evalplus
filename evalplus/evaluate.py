@@ -38,7 +38,6 @@ from evalplus.gen.util import trusted_exec
 # 2nd item (optional): the detailed pass/fail boolean for each input
 Result = Tuple[str, List[bool]]
 
-
 def get_groundtruth(problems, hashcode, tasks_only_output_not_none):
     cache_file = os.path.join(CACHE_DIR, f"{hashcode}.pkl")
     if os.path.exists(cache_file):
@@ -217,7 +216,7 @@ def evaluate(
                     solution,
                     expected_output[task_id],
                     base_only,
-                    not test_details,  # fast_check
+                    False,  # fast_check
                     sample["_identifier"],
                     min_time_limit,
                     gt_time_limit_factor,
@@ -253,16 +252,13 @@ def evaluate(
             for res in task_results:
 
                 def get_failed_tests(stat, details, inputs) -> List[Any]:
-                    if stat == PASS or not details:
+                    if stat == PASS :
                         return []
 
-                    if test_details:
+                    if True:
                         return [
                             inputs[i] for i in range(len(details)) if not details[i]
                         ]
-
-                    # else => simply return the only and the last fail test
-                    return [inputs[len(details) - 1]]
 
                 base_stat, base_details = res["base"]
                 base_fail_tests = get_failed_tests(
