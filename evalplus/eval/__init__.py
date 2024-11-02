@@ -273,7 +273,7 @@ def untrusted_check(
         stat = TIMEOUT
         details = details[: len(inputs)]
     if stat == PASS:
-        details = details[: progress.value]
+        details = details[: len(inputs)]
         if len(details) != len(inputs) or not all(details):
             stat = FAIL
     return stat, details
