@@ -255,7 +255,7 @@ def evaluate(
                     if stat == PASS :
                         return []
 
-                    if True:
+                    else:
                         return [
                             inputs[i] for i in range(len(details)) if not details[i]
                         ]
