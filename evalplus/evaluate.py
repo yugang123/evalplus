@@ -1,6 +1,5 @@
-import sys
-sys.set_int_max_str_digits(1000000)
 import json
+import pandas as pd
 import multiprocessing
 import os
 import pickle
@@ -268,11 +267,11 @@ def evaluate(
                     else:
                         if(baseorplus=='base'):
                             return [
-                                str(expected_output[task_id]["base"][i]) for i in range(len(details)) if not details[i]
+                                expected_output[task_id]["base"][i] for i in range(len(details)) if not details[i]
                             ]
                         if(baseorplus=='plus'):
                             return [
-                                str(expected_output[task_id]["plus"][i]) for i in range(len(details)) if not details[i]
+                                expected_output[task_id]["plus"][i] for i in range(len(details)) if not details[i]
                             ]
                 base_stat, base_details = res["base"]
                 base_fail_tests = get_failed_tests(
@@ -309,8 +308,9 @@ def evaluate(
                         "plus_outputs":yh_plus_right_outputs
                     }
                 )
-        with open('fault.json', "w") as f:
-            json.dump(results["eval"], f)
+        df = pd.DataFrame(results["eval"])
+        df.to_csv('results.csv', index=False)
+
     # Calculate pass@k.
     total = np.array([len(r) for r in results["eval"].values()])
     base_correct = []
