@@ -259,22 +259,37 @@ def evaluate(
                         return [
                             inputs[i] for i in range(len(inputs)) if not details[i]
                         ]
+                def get_right_outputs(stat, details, baseorplus) -> List[Any]:
+                    if stat == PASS :
+                        return []
 
+                    else:
+                        if(baseorplus=='base'):
+                            return [
+                                expected_output[task_id]["base"][i] for i in range(len(details)) if not details[i]
+                            ]
+                        if(baseorplus=='plus'):
+                            return [
+                                expected_output[task_id]["plus"][i] for i in range(len(details)) if not details[i]
+                            ]
                 base_stat, base_details = res["base"]
                 base_fail_tests = get_failed_tests(
                     base_stat, base_details, problems[task_id]["base_input"]
                 )
+                yh_base_right_outputs = get_right_outputs(base_stat, base_details,'base')
 
                 # initialize plus tests
                 plus_stat = None
                 plus_fail_tests = []
-
+                yh_plus_right_outputs = []
                 # with plus tests
                 if not base_only:
                     plus_stat, plus_details = res["plus"]
                     plus_fail_tests = get_failed_tests(
                         plus_stat, plus_details, problems[task_id]["plus_input"]
                     )
+                    yh_plus_right_outputs = get_right_outputs(plus_stat, plus_details,'plus')
+                    
 
                 if dataset == "mbpp":
                     base_fail_tests = mbpp_serialize_inputs(task_id, base_fail_tests)
@@ -288,6 +303,8 @@ def evaluate(
                         "plus_status": plus_stat,
                         "base_fail_tests": base_fail_tests,
                         "plus_fail_tests": plus_fail_tests,
+                        "base_outputs":yh_base_right_outputs,
+                        "plus_outputs":yh_plus_right_outputs
                     }
                 )
         with open('fault.json', "w") as f:
