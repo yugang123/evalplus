@@ -9,7 +9,7 @@ from concurrent.futures import ProcessPoolExecutor, as_completed
 from datetime import datetime
 from typing import Any, Dict, List, Optional, Tuple
 from warnings import warn
-
+from decimal import Decimal, getcontext
 import numpy as np
 from termcolor import cprint
 from tqdm import tqdm
@@ -260,10 +260,10 @@ def evaluate(
                             inputs[i] for i in range(len(inputs)) if not details[i]
                         ]
                 threshold = 1e6  # 设置阈值，超大整数的标准
-
+                getcontext().prec = 50
                 def format_value(value):
                     if isinstance(value, int) and abs(value) > threshold:
-                        return "{:.2e}".format(value)
+                        return "{:.2e}".format(Decimal(value))
                     return str(value)
                 
                 def get_right_outputs(stat, details, baseorplus) -> List[Any]:
