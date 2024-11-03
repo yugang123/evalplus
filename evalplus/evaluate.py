@@ -273,11 +273,7 @@ def evaluate(
                     else:
                         if(baseorplus=='base'):
                             return [
-                                format_value(expected_output[task_id]["base"][i]) for i in range(len(details)) if not details[i]
-                            ]
-                        if(baseorplus=='plus'):
-                            return [
-                                format_value(expected_output[task_id]["plus"][i]) for i in range(len(details)) if not details[i]
+                                expected_output[task_id]["base"][i] for i in range(len(details)) if not details[i]
                             ]
                 base_stat, base_details = res["base"]
                 base_fail_tests = get_failed_tests(
