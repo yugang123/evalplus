@@ -257,7 +257,7 @@ def evaluate(
 
                     else:
                         return [
-                            inputs[i] for i in range(len(inputs)) if not details[i]
+                            inputs[i] for i in range(len(details)) if not details[i]
                         ]
                 threshold = 1e6  # 设置阈值，超大整数的标准
                 getcontext().prec = 50
