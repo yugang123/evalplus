@@ -1,5 +1,4 @@
 import json
-import pandas as pd
 import multiprocessing
 import os
 import pickle
@@ -260,6 +259,13 @@ def evaluate(
                         return [
                             inputs[i] for i in range(len(inputs)) if not details[i]
                         ]
+                threshold = 1e6  # 设置阈值，超大整数的标准
+
+                def format_value(value):
+                    if isinstance(value, int) and abs(value) > threshold:
+                        return "{:.2e}".format(value)
+                    return str(value)
+                
                 def get_right_outputs(stat, details, baseorplus) -> List[Any]:
                     if stat == PASS :
                         return []
@@ -267,11 +273,11 @@ def evaluate(
                     else:
                         if(baseorplus=='base'):
                             return [
-                                expected_output[task_id]["base"][i] for i in range(len(details)) if not details[i]
+                                format_value(expected_output[task_id]["base"][i]) for i in range(len(details)) if not details[i]
                             ]
                         if(baseorplus=='plus'):
                             return [
-                                expected_output[task_id]["plus"][i] for i in range(len(details)) if not details[i]
+                                format_value(expected_output[task_id]["plus"][i]) for i in range(len(details)) if not details[i]
                             ]
                 base_stat, base_details = res["base"]
                 base_fail_tests = get_failed_tests(
@@ -308,8 +314,8 @@ def evaluate(
                         "plus_outputs":yh_plus_right_outputs
                     }
                 )
-        df = pd.DataFrame(results["eval"])
-        df.to_csv('results.csv', index=False)
+        with open('fault.json', "w") as f:
+            json.dump(results["eval"], f)
 
     # Calculate pass@k.
     total = np.array([len(r) for r in results["eval"].values()])
