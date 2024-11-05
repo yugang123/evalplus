@@ -19,7 +19,7 @@ def get_dataset_metadata(name: str, version: str, mini: bool, noextreme: bool = 
         extra = "-Mini"
     if noextreme:
         extra = "-NoExtreme"
-    url = f"https://github.com/yugang123/humanevalplus_release/raw/main/{name}{extra}.jsonl.gz"
+    url = f"https://github.com/evalplus/{name.lower()}_release/releases/download/{version}/{name}{extra}.jsonl.gz"
     print("注意注意注意注意\n")
     print(url)
     cache_path = os.path.join(CACHE_DIR, f"{name}{extra}-{version}.jsonl")
